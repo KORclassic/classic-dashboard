@@ -3,18 +3,29 @@ import google.generativeai as genai
 import gspread
 import datetime
 import json
+import os  # 👈 새로 추가된 부품입니다.
 
 # 페이지 기본 설정
 st.set_page_config(page_title="고전 탐구 대시보드", page_icon="📜", layout="wide")
 
 # ==============================================================
-# 🚨 선생님 설정 영역
+# 🚨 선생님 설정 영역 (보안 금고 연동 완료!)
 # ==============================================================
-GEMINI_API_KEY = "AQ.Ab8RN6K3x0oN2Byg7-s9z82ha_iMtHga3J-AOj-68v21SrK_Qg"
+# 1. 금고에서 API 키 꺼내오기
+GEMINI_API_KEY = st.secrets["gemini_api_key"]
 SHEET_URL = "https://docs.google.com/spreadsheets/d/18bM8BHJcpF5FV3Z2EFctz4poLYGppfzrnePlY4g-Xto/edit?gid=0#gid=0"
+
+# 2. 금고에 저장해둔 구글 인증 텍스트를 임시 파일로 만들어주는 마법의 코드
+if not os.path.exists('credentials.json'):
+    with open('credentials.json', 'w', encoding='utf-8') as f:
+        f.write(st.secrets["credentials"])
+        
+if not os.path.exists('token.json'):
+    with open('token.json', 'w', encoding='utf-8') as f:
+        f.write(st.secrets["token"])
 # ==============================================================
 
-# Gemini AI 설정 (존재하지 않는 3.5 모델 대신 가장 안정적인 1.5-flash 사용)
+# Gemini AI 설정
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel('gemini-3.5-flash-lite')
 
