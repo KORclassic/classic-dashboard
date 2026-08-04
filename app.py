@@ -3,7 +3,7 @@ import google.generativeai as genai
 import gspread
 import datetime
 import json
-import os  # 👈 새로 추가된 부품입니다.
+import os
 
 # 페이지 기본 설정
 st.set_page_config(page_title="고전 탐구 대시보드", page_icon="📜", layout="wide")
@@ -266,15 +266,24 @@ elif st.session_state.page == 3:
             response = model.generate_content(prompt_bg)
             st.session_state.bg_knowledge = response.text
 
+    # 1. 작가 및 저술 배경을 화면 위쪽 전체 너비로 배치
+    st.markdown("#### 🏛️ 작가 및 저술 배경 (AI 보조)")
+    st.write(st.session_state.bg_knowledge)
+    
+    st.markdown("---")
+
+    # 2. 작품 원문 및 해석을 나란히(Expander 형태) 배치
+    st.markdown("#### 📜 작품 원문 및 해석")
     col1, col2 = st.columns([1, 1])
+    
     with col1:
-        st.markdown("#### 📜 작품 원문 및 해석")
-        st.info(f"**[원문]**\n{work.get('원문', '')}")
-        st.success(f"**[현대어 풀이]**\n{work.get('현대어 풀이', '')}")
+        with st.expander(f"'{title}' 원문"):
+            st.write(work.get('원문', ''))
+            
     with col2:
-        st.markdown("#### 🏛️ 작가 및 저술 배경 (AI 보조)")
-        st.write(st.session_state.bg_knowledge)
-        
+        with st.expander(f"'{title}' 해석"):
+            st.write(work.get('현대어 풀이', ''))
+            
     st.markdown("---")
     st.markdown("#### ✍️ 나의 탐구 초안 작성")
     
