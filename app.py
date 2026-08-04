@@ -262,7 +262,7 @@ elif st.session_state.page == 3:
     
     if not st.session_state.bg_knowledge:
         with st.spinner("AI가 작가와 저술 배경에 대한 지식을 가져오는 중입니다..."):
-            prompt_bg = f"너는 한문 교사야. 학생들을 위해 고전 산문 '{title}'(저자: {author})에 대한 사전적 배경지식(작가의 생애 특징, 이 글을 쓰게 된 시대적/개인적 저술 배경)을 고등학생이 이해하기 쉽게 3~4문장으로 요약해 줘."
+            prompt_bg = f"너는 한문 교사야. 학생들을 위해 고전 산문 '{title}'(저자: {author})에 대한 사전적 배경지식(작가의 생애 특징, 이 글을 쓰게 된 시대적/개인적 저술 배경)을 고등학생이 이해하기 쉽게 1000바이트 이내로 요약해 줘."
             response = model.generate_content(prompt_bg)
             st.session_state.bg_knowledge = response.text
 
