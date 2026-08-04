@@ -278,11 +278,11 @@ elif st.session_state.page == 3:
     
     with col1:
         with st.expander(f"'{title}' 원문"):
-            st.write(work.get('원문', ''))
+            st.info(work.get('원문', ''))
             
     with col2:
         with st.expander(f"'{title}' 해석"):
-            st.write(work.get('현대어 풀이', ''))
+            st.success(work.get('현대어 풀이', ''))
             
     st.markdown("---")
     st.markdown("#### ✍️ 나의 탐구 초안 작성")
